@@ -255,13 +255,13 @@ void DataModel::prepare() {
         right_num[i]=sum2/sum1;
     }
     //output
-    ofstream fout;
-    fout.open((data_set.report_dir+"train_details.txt").c_str(),std::ios::app);
-    cout<<"relation_num="<<relation_num<<endl;
-    fout<<"relation_num="<<relation_num<<endl;
-    cout<<"entity_num="<<entity_num<<endl;
-    fout<<"entity_num="<<entity_num<<endl;
-    fout.close();
+    ofstream of;
+    of.open((data_set.report_dir+"train_details.txt").c_str(),std::ios::app);
+    cout<<"relation_num: "<<relation_num<<endl;
+    of<<"relation_num: "<<relation_num<<endl;
+    cout<<"entity_num: "<<entity_num<<endl;
+    of<<"entity_num: "<<entity_num<<endl;
+    of.close();
 }
 
 #endif //NCKRL_DATAMODEL_H
