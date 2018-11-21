@@ -29,7 +29,7 @@ private:
     vector<vector<double> > relation_tmp,entity_tmp;
     vector<double> rate_confidence; //local triple confidence
     vector<pair<double,double> > neg_confidence; //negative triple confidence && its quality
-
+    vector<pair<double, double> > neg_exp; //used for soft max function
 public:
     Train(Data& p_data, Parameter& p_param, unsigned&rel_num,
             unsigned&ent_num,vector<pair<pair<int, int>, int> >& d_train,

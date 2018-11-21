@@ -98,10 +98,10 @@ void Train::sgd() {
             relation_tmp = relation_vec;
             entity_tmp = entity_vec;
             for (int k = 0; k < batch_size; k++) {
+                neg_exp.clear();
                 int i = Utilities::rand_max(data_train.size());
                 int j = 0, candidate;
                 double neg_quality = qNULL;
-                vector<pair<double, double> > neg_exp;
                 double exp_sum = 0;
                 double pr = params.method != "bern" ? 500 : 1000 *
                         right_num[data_train[i].second]/(right_num[data_train[i].second]
@@ -110,10 +110,13 @@ void Train::sgd() {
                 if (rd() % 1000 < pr) {
                     for (unsigned neg = 0; neg < params.ng_num; neg++) {
                         candidate = Utilities::rand_max(entity_num);
-
-                        while (train_exist[make_pair(data_train[i].first.first, candidate)].count(
-                                data_train[i].second) > 0)
+                        pair<int,int> entity_pair = make_pair(data_train[i].first.first, candidate);
+                        while (train_exist.count(entity_pair) && train_exist[entity_pair]
+                        .count(data_train[i].second)) {
                             candidate = Utilities::rand_max(entity_num);
+                            entity_pair = make_pair(data_train[i].first.first, candidate);
+                        }
+                        pair<int,int>().swap(entity_pair);
                         double vec_norm = calc_sum(data_train[i].first.first, candidate, data_train[i].second);
                         if (neg_quality == qNULL) {
                             neg_quality = -vec_norm;
@@ -137,9 +140,13 @@ void Train::sgd() {
                 } else {
                     for (unsigned neg = 0; neg < params.ng_num; neg++) {
                         candidate = Utilities::rand_max(entity_num);
-                        while (train_exist[make_pair(candidate,
-                                                     data_train[i].first.second)].count(data_train[i].second) > 0)
+                        pair<int,int> entity_pair = make_pair(candidate,data_train[i].first.second);
+                        while (train_exist.count(entity_pair) && train_exist[entity_pair]
+                        .count(data_train[i].second)) {
                             candidate = Utilities::rand_max(entity_num);
+                            entity_pair = make_pair(candidate,data_train[i].first.second);
+                        }
+                        pair<int,int>().swap(entity_pair);
                         double vec_norm = calc_sum(candidate, data_train[i].first.second, data_train[i].second);
                         if (neg_quality == qNULL) {
                             neg_quality = -vec_norm;
@@ -163,11 +170,10 @@ void Train::sgd() {
                 }
                 int rel_neg = Utilities::rand_max(relation_num);
                 while (train_exist[make_pair(data_train[i].first.first,
-                                             data_train[i].first.second)].count(rel_neg) > 0)
+                                             data_train[i].first.second)].count(rel_neg))
                     rel_neg = Utilities::rand_max(relation_num);
                 train_kb(data_train[i].first.first, data_train[i].first.second, data_train[i].second,
                          data_train[i].first.first, data_train[i].first.second, rel_neg, i, true);
-
                 norm(relation_tmp[data_train[i].second]);
                 norm(relation_tmp[rel_neg]);
                 norm(entity_tmp[data_train[i].first.first]);
