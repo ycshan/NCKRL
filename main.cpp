@@ -12,9 +12,9 @@
 
 using namespace std;
 
-void usage_message()
-{
+void usage_message() {
     cout << "command line options:";
+    cout << "\n-e: training epochs as: -e number, default is set to 1000";
     cout << "\n-d: dimension of entities and relations as: -d number, default is set to 50";
     cout << "\n-r: margin as: -r number, default is set to 3";
     cout << "\n-l: learning rate as: -l decimal, default is set to 0.003";
@@ -41,8 +41,8 @@ int main(int argc, char **argv) {
     usage_message();
     srand((unsigned) time(nullptr));
 
-    // default parameters
-    int epochs = 100;
+    //default parameters
+    int epochs = 1000;
     unsigned dimension = 50;
     double margin = 3;
     double l_rate = 0.003;
@@ -53,6 +53,8 @@ int main(int argc, char **argv) {
 
     if ( argc > 1) {
         int i;
+        if ((i = arg_pos((char *)"-e", argc, argv)) > 0)
+            epochs = (unsigned)strtol(argv[i + 1], nullptr, 10);
         if ((i = arg_pos((char *)"-d", argc, argv)) > 0)
             dimension = (unsigned)strtol(argv[i + 1], nullptr, 10);
         if ((i = arg_pos((char *)"-r", argc, argv)) > 0)
@@ -79,11 +81,12 @@ int main(int argc, char **argv) {
     //output
     ofstream of;
     of.open((data.report_dir+"/train_details.txt").c_str());
-    of<<"data set:"<<data_set<<"\tnoise rate:"<<noise_rate<<"\t with pre-"<<noise_rate<<endl;
-    of<<"dimension: "<<dimension<<endl;
-    of<<"learning rate: "<<l_rate<<endl;
-    of<<"margin: "<<margin<<endl;
-    of<<"method: "<<method<<endl;
+    of << "data set:" << data_set << "\tnoise rate:" << noise_rate << "\t with pre-" << noise_rate << endl;
+    of << "epochs: " << epochs << endl;
+    of << "dimension: " << dimension << endl;
+    of << "learning rate: " << l_rate << endl;
+    of << "margin: " << margin << endl;
+    of << "method: " << method << endl;
     of.close();
 
     cout << "preparing..." << endl;
@@ -99,7 +102,7 @@ int main(int argc, char **argv) {
     cout << "training finished. \nstart testing..." << endl;
 
     Test testing(data,params,data_model.relation_num
-            ,data_model.entity_num, data_model.data_test
+            ,data_model.entity_num,data_model.data_test
             ,data_model.all_flg);
     testing.link_prediction();
     cout << "testing finished." << endl;

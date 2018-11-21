@@ -9,8 +9,7 @@
 
 using namespace std;
 
-class Data
-{
+class Data {
 public:
     string name;
     string base_dir;
@@ -31,8 +30,7 @@ public:
          const string& d_valid,
          const string& d_test,
          const string& d_entity2id,
-         const string& d_relation2id)
-    {
+         const string& d_relation2id) {
         this->name = d_name;
         this->base_dir = d_base_dir;
         this->report_dir=d_report_dir;
@@ -65,8 +63,7 @@ public:
               const string& p_method,
               const string& p_noise_rate,
               const int& p_ng_num,
-              const bool& p_l1_flag)
-    {
+              const bool& p_l1_flag) {
         this->epoch = p_epoch;
         this->dim = p_dim;
         this->l_rate = p_l_rate;
