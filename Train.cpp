@@ -186,14 +186,14 @@ void Train::sgd() {
         cout << "epoch:" << epoch << " \t" << val_loss << endl;
         if (epoch % 20 == 0) {
             ofstream of;
-            of.open((data_set.report_dir + "train_details.txt").c_str(), std::ios::app);
+            of.open((data_set.report_dir + "experiment_"+params.detail).c_str(), std::ios::app);
             of << "epoch:" << epoch << " \t" << val_loss << endl;
             of.close();
         }
         if (epoch % (params.epoch - 1) == 0) {
-            FILE *f2 = fopen((data_set.report_dir + "relation2vec." + params.method).c_str(), "w");
-            FILE *f3 = fopen((data_set.report_dir + "entity2vec." + params.method).c_str(), "w");
-            FILE *f4 = fopen((data_set.report_dir + "rate_conf." + params.method).c_str(), "w");
+            FILE *f2 = fopen((data_set.report_dir + "relation2vec_" + params.detail).c_str(), "w");
+            FILE *f3 = fopen((data_set.report_dir + "entity2vec_" + params.detail).c_str(), "w");
+            FILE *f4 = fopen((data_set.report_dir + "rate2conf_" + params.detail).c_str(), "w");
             for (int i = 0; i < relation_num; i++) { //output relation2vec
                 for (int ii = 0; ii < params.dim; ii++)
                     fprintf(f2, "%.6lf\t", relation_vec[i][ii]);

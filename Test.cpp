@@ -16,8 +16,8 @@ double Test::calc_sum(int e1,int e2,int rel) {
 }
 
 void Test::link_prediction() {
-    FILE* f1 = fopen((data_set.report_dir+"relation2vec."+params.method).c_str(),"r");
-    FILE* f2 = fopen((data_set.report_dir+"entity2vec."+params.method).c_str(),"r");
+    FILE* f1 = fopen((data_set.report_dir+"relation2vec_"+params.detail).c_str(),"r");
+    FILE* f2 = fopen((data_set.report_dir+"entity2vec_"+params.detail).c_str(),"r");
     relation_vec.resize(relation_num);
     for (auto &vec : relation_vec) {
         vec.resize(params.dim);
@@ -158,25 +158,25 @@ void Test::link_prediction() {
     double fright_first_hit = right_first_hit_filter/test_total;
 
     //output
-    ofstream fout;
-    fout.open((data_set.report_dir+"report.txt").c_str());
-    fout<<"LEFT\tmr:"<<rleft_mean_rank<<'\t'<<fleft_mean_rank<<"\tmrr:"<<rleft_mrr;
-    fout<<'\t'<<fleft_mrr<<"\thit@10:"<<rleft_hit<<'\t'<<fleft_hit;
-    fout<<"\thit@1:"<<rleft_first_hit<<'\t'<<fleft_first_hit<<endl;
+    ofstream of;
+    of.open((data_set.report_dir+"report_"+params.detail).c_str());
+    of<<"LEFT\tmr:"<<rleft_mean_rank<<'\t'<<fleft_mean_rank<<"\tmrr:"<<rleft_mrr;
+    of<<'\t'<<fleft_mrr<<"\thit@10:"<<rleft_hit<<'\t'<<fleft_hit;
+    of<<"\thit@1:"<<rleft_first_hit<<'\t'<<fleft_first_hit<<endl;
 
-    fout<<"RIGHT\tmr:"<<rright_mean_rank<<'\t'<<fright_mean_rank<<"\tmrr:"<<rright_mrr;
-    fout<<'\t'<<fright_mrr<<"\thit@10:"<<rright_hit<<'\t'<<fright_hit;
-    fout<<"\thit@1:"<<rright_first_hit<<'\t'<<fright_first_hit<<endl;
+    of<<"RIGHT\tmr:"<<rright_mean_rank<<'\t'<<fright_mean_rank<<"\tmrr:"<<rright_mrr;
+    of<<'\t'<<fright_mrr<<"\thit@10:"<<rright_hit<<'\t'<<fright_hit;
+    of<<"\thit@1:"<<rright_first_hit<<'\t'<<fright_first_hit<<endl;
 
-    fout<<"MEAN\tmr:"<<(rleft_mean_rank+rright_mean_rank)/2<<'\t'<<(fleft_mean_rank+fright_mean_rank)/2;
-    fout<<"\tmrr:"<<(rleft_mrr+rright_mrr)/2<<'\t'<<(fleft_mrr+fright_mrr)/2;
-    fout<<"\thit@10:"<<(rleft_hit+rright_hit)/2<<'\t'<<(fleft_hit+fright_hit)/2;
-    fout<<"\thit@1:"<<(rleft_first_hit+rright_first_hit)/2<<'\t'<<(fleft_first_hit+fright_first_hit)/2<<endl;
+    of<<"MEAN\tmr:"<<(rleft_mean_rank+rright_mean_rank)/2<<'\t'<<(fleft_mean_rank+fright_mean_rank)/2;
+    of<<"\tmrr:"<<(rleft_mrr+rright_mrr)/2<<'\t'<<(fleft_mrr+fright_mrr)/2;
+    of<<"\thit@10:"<<(rleft_hit+rright_hit)/2<<'\t'<<(fleft_hit+fright_hit)/2;
+    of<<"\thit@1:"<<(rleft_first_hit+rright_first_hit)/2<<'\t'<<(fleft_first_hit+fright_first_hit)/2<<endl;
 
-    fout<<"REL\tmr:"<<rrel_mean_rank<<'\t'<<frel_mean_rank;
-    fout<<"\thit@1:"<<rrel_hit<<'\t'<<frel_hit<<endl;
+    of<<"REL\tmr:"<<rrel_mean_rank<<'\t'<<frel_mean_rank;
+    of<<"\thit@1:"<<rrel_hit<<'\t'<<frel_hit<<endl;
 
-    fout.close();
+    of.close();
 }
 
 Test::Test(Data& p_data, Parameter& p_param, unsigned&rel_num,

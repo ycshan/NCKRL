@@ -40,7 +40,7 @@ public:
 };
 
 DataModel::DataModel(Data &p_data, Parameter &p_params)
-:data_set(p_data),params(p_params) {
+        :data_set(p_data),params(p_params) {
     this->relation_num = 0;
     this->entity_num = 0;
     this->relation2id.clear();
@@ -229,9 +229,9 @@ void DataModel::prepare() {
     }
     //output
     ofstream of;
-    of.open((data_set.report_dir+"train_details.txt").c_str(),std::ios::app);
-    of << "relation_num: " << relation_num << endl;
-    of << "entity_num: " << entity_num << endl;
+    of.open((data_set.report_dir+"experiment_"+params.detail).c_str(),std::ios::app);
+    of << "relation number: " << relation_num << endl;
+    of << "entity number: " << entity_num << endl;
     of.close();
 }
 

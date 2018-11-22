@@ -20,7 +20,7 @@ namespace Utilities{
 
     inline double vec_len(vector<double> &a) {
         double res = 0;
-        for (double &val : a)
+        for (double val : a)
             res += val*val;
         return sqrt(res);
     }
@@ -53,11 +53,11 @@ namespace Utilities{
     //rand of normal distribution
     inline double rand_normal(double miu, double sigma, double min, double max) {
         double x,y,scope;
-        do{
+        do {
             x = rand_uniform(min, max);
             y = normal(x, miu, sigma);
             scope = rand_uniform(0.0, normal(miu, miu, sigma));
-        }while(scope > y);
+        } while(scope > y);
         return x;
     }
 }
