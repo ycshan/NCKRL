@@ -163,7 +163,7 @@ void Test::link_prediction() {
 
     //output
     ofstream of;
-    of.open((data_set.report_dir+params.detail).c_str(),std::ios::app);
+    of.open((data_set.report_dir+params.report).c_str(),std::ios::app);
     of<<"\nLEFT\tmr:"<<rleft_mean_rank<<'\t'<<fleft_mean_rank<<"\tmrr:"<<rleft_mrr;
     of<<'\t'<<fleft_mrr<<"\thit@10:"<<rleft_hit<<'\t'<<fleft_hit;
     of<<"\thit@1:"<<rleft_first_hit<<'\t'<<fleft_first_hit<<endl;

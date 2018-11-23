@@ -26,7 +26,7 @@ void usage_message() {
 
 int arg_pos(char *str, int argc, char **argv) {
     int i;
-    for (i = 1; (i < argc) && (argv[i][0] == '-'); i++)
+    for (i = 1; i < argc; i++)
         if (!strcmp(str, argv[i])) {
             if (i == argc - 1) {
                 cerr << "argument missing for " << str << endl;
@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
     string data_set = "FB15K";
     string noise_rate = "10";
     int ng_num = 20;
+    bool l1_flg = true;
 
     if ( argc > 1) {
         int i;
@@ -74,26 +75,27 @@ int main(int argc, char **argv) {
             ng_num = (unsigned)strtol(argv[i + 1], nullptr, 10);
     }
 
-    Data data(data_set,"./data/"+data_set+"/",
+    Data data("./data/"+data_set+"/",
               "./results/"+data_set+"/","train.txt",
-              "neg_train_"+noise_rate+".txt","valid.txt",
+              "train_n"+noise_rate+".txt","valid.txt",
               "test.txt","entity2id.txt","relation2id.txt");
-    Parameter params(epochs, dimension, l_rate, margin, method, noise_rate, ng_num, true);
+    Parameter params(epochs,dimension,l_rate,margin,method,noise_rate,ng_num,l1_flg,false);
 
 
     //output
     ofstream of;
-    of.open((data.report_dir+params.detail).c_str());
-    of << "data set:" << data_set << endl;
-    of << "noise rate:" << noise_rate << endl;
+    of.open((data.report_dir+params.report).c_str());
+    of << "data set: " << data_set << endl;
+    of << "noise rate: " << noise_rate << "%" << endl;
     of << "epochs: " << epochs << endl;
     of << "dimension: " << dimension << endl;
     of << "learning rate: " << l_rate << endl;
+    of << "candidates number: " << ng_num << endl;
     of << "margin: " << margin << endl;
     of << "method: " << method << endl;
     of.close();
 
-    cout << "\npreparing..." << endl;
+    cout << "preparing..." << endl;
     DataModel data_model(data, params);
     data_model.prepare();
     cout << "preparing accomplished. \n\nstart training..." << endl;

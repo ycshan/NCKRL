@@ -11,7 +11,6 @@ using namespace std;
 
 class Data {
 public:
-    string name;
     string base_dir;
     string report_dir;
     string train;
@@ -22,8 +21,7 @@ public:
     string relation2id;
 
 public:
-    Data(const string& d_name,
-         const string& d_base_dir,
+    Data(const string& d_base_dir,
          const string& d_report_dir,
          const string& d_train,
          const string& d_train_neg,
@@ -31,7 +29,6 @@ public:
          const string& d_test,
          const string& d_entity2id,
          const string& d_relation2id) {
-        this->name = d_name;
         this->base_dir = d_base_dir;
         this->report_dir=d_report_dir;
         this->train = d_train;
@@ -53,7 +50,9 @@ public:
     string noise_rate;
     int ng_num;
     bool l1_flag;
+    bool pre_flag;
     string detail;
+    string report;
 
 public:
     Parameter(const unsigned& p_epoch,
@@ -63,7 +62,8 @@ public:
               const string& p_method,
               const string& p_noise_rate,
               const int& p_ng_num,
-              const bool& p_l1_flag) {
+              const bool& p_l1_flag,
+              const bool& p_pre_flag) {
         this->epoch = p_epoch;
         this->dim = p_dim;
         this->l_rate = p_l_rate;
@@ -72,8 +72,10 @@ public:
         this->noise_rate = p_noise_rate;
         this->ng_num = p_ng_num;
         this->l1_flag = p_l1_flag;
-        this->detail = "report_n"+p_noise_rate+"-l"+to_string(p_l_rate)+"-r"+
+        this->pre_flag = p_pre_flag;
+        this->detail = "n"+p_noise_rate+"-l"+to_string(p_l_rate)+"-r"+
                 to_string(p_margin)+"-c"+to_string(p_ng_num);
+        this->report = "report_"+detail;
     }
 };
 

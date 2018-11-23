@@ -45,34 +45,46 @@ void Train::run() {
     for (auto &vec : entity_tmp)
         vec.resize(params.dim);
 
-    //initialization, with pre-trained TransE
-    FILE* f1 = fopen((data_set.base_dir+"preTransE/N"+params.noise_rate
-            +"/entity2vec."+params.method).c_str(),"r");
-    for (auto &vec : entity_vec) {
-        for (double &val : vec)
-            fscanf(f1, "%lf", &val);
+    if (params.pre_flag) {
+        //initialization, with pre-trained TransE
+        FILE* f1 = fopen((data_set.base_dir+"pre-trained/"+
+                          "entity2vec_n"+params.noise_rate).c_str(),"r");
+        for (auto &vec : entity_vec) {
+            for (double &val : vec)
+                fscanf(f1, "%lf", &val);
+        }
+        fclose(f1);
+        FILE* f2 = fopen((data_set.base_dir+"pre-trained/"+
+                          "relation2vec_n"+params.noise_rate).c_str(),"r");
+        for (auto &vec : relation_vec) {
+            for (double &val : vec)
+                fscanf(f2, "%lf", &val);
+        }
+        fclose(f2);
+        ofstream of;
+        of.open((data_set.report_dir+params.report).c_str(),std::ios::app);
+        of << "\nembeddings were initialized with pre-trained TransE model\n\n";
+        of.close();
+    } else {
+        //initialization, randomly
+        for (auto &vec : relation_vec) {
+            for (double &val : vec) {
+                val = Utilities::rand_normal(0,1.0/params.dim,
+                                             -6/sqrt(params.dim),6/sqrt(params.dim));
+            }
+        }
+        for (auto &vec : entity_vec) {
+            for (double &val : vec) {
+                val = Utilities::rand_normal(0,1.0/params.dim,
+                                             -6/sqrt(params.dim),6/sqrt(params.dim));
+            }
+            norm(vec);
+        }
+        ofstream of;
+        of.open((data_set.report_dir+params.report).c_str(),std::ios::app);
+        of << "\nembeddings were initialized randomly\n\n";
+        of.close();
     }
-    fclose(f1);
-    FILE* f2 = fopen((data_set.base_dir+"preTransE/N"+params.noise_rate
-            +"/relation2vec."+params.method).c_str(),"r");
-    for (auto &vec : relation_vec) {
-        for (double &val : vec)
-            fscanf(f2, "%lf", &val);
-    }
-    fclose(f2);
-
-    //initialization, randomly
-//    for (int i=0; i<relation_num; i++) {
-//        for (int ii=0; ii < params.dim; ii++)
-//            relation_vec[i][ii] = Utilities::rand_normal(
-//                    0, 1.0/params.dim, -6/sqrt(params.dim), 6/sqrt(params.dim));
-//    }
-//    for (int i=0; i<entity_num; i++) {
-//        for (int ii=0; ii < params.dim; ii++)
-//            entity_vec[i][ii] = Utilities::rand_normal(
-//                    0, 1.0/params.dim, -6/sqrt(params.dim), 6/sqrt(params.dim));
-//        norm(entity_vec[i]);
-//    }
 
     rate_confidence.resize(data_train.size());	//initialization
     for (double &val : rate_confidence)

@@ -229,7 +229,7 @@ void DataModel::prepare() {
     }
     //output
     ofstream of;
-    of.open((data_set.report_dir+params.detail).c_str(),std::ios::app);
+    of.open((data_set.report_dir+params.report).c_str(),std::ios::app);
     of << "relation number: " << relation_num << endl;
     of << "entity number: " << entity_num << endl;
     of.close();
