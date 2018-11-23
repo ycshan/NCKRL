@@ -185,39 +185,34 @@ void Train::sgd() {
             relation_vec = relation_tmp;
             entity_vec = entity_tmp;
         }
-        if (epoch % 20 == 0) {
-            ofstream of;
-            of.open((data_set.report_dir + "experiment_"+params.detail).c_str(), std::ios::app);
-            of << "epoch:" << epoch << " \t" << val_loss << endl;
-            of.close();
-        }
-        if ((epoch+1)%params.epoch == 0) {
-            FILE *f2 = fopen((data_set.report_dir + "relation2vec_" + params.detail).c_str(), "w");
-            FILE *f3 = fopen((data_set.report_dir + "entity2vec_" + params.detail).c_str(), "w");
-            FILE *f4 = fopen((data_set.report_dir + "rate2conf_" + params.detail).c_str(), "w");
-            for (int i = 0; i < relation_num; i++) { //output relation2vec
-                for (int ii = 0; ii < params.dim; ii++)
-                    fprintf(f2, "%.6lf\t", relation_vec[i][ii]);
-                fprintf(f2, "\n");
-            }
-            fclose(f2);
-
-            for (int i = 0; i < entity_num; i++) { //output entity_vec
-                for (int ii = 0; ii < params.dim; ii++)
-                    fprintf(f3, "%.6lf\t", entity_vec[i][ii]);
-                fprintf(f3, "\n");
-            }
-            fclose(f3);
-
-            for (unsigned i = 0; i < data_train.size(); i++) { //output rate_confidence
-                fprintf(f4, "%.6lf\n", rate_confidence[i]);
-            }
-            fclose(f4);
-        }
         ++progress_train;
         progress_train.display();
     }
     progress_train.done();
+
+    //write relations' and entities' embeddings to file
+    FILE *f1 = fopen((data_set.report_dir + "relation2vec_" + params.detail).c_str(), "w");
+    for (int i = 0; i < relation_num; i++) { //output relation2vec
+        for (int ii = 0; ii < params.dim; ii++)
+            fprintf(f1, "%.6lf\t", relation_vec[i][ii]);
+        fprintf(f1, "\n");
+    }
+    fclose(f1);
+
+    FILE *f2 = fopen((data_set.report_dir + "entity2vec_" + params.detail).c_str(), "w");
+    for (int i = 0; i < entity_num; i++) { //output entity_vec
+        for (int ii = 0; ii < params.dim; ii++)
+            fprintf(f2, "%.6lf\t", entity_vec[i][ii]);
+        fprintf(f2, "\n");
+    }
+    fclose(f2);
+
+    //write triple confidence, which is defined in CKRL, to file
+    FILE *f3 = fopen((data_set.report_dir + "rate2conf_" + params.detail).c_str(), "w");
+    for (unsigned i = 0; i < data_train.size(); i++) { //output rate_confidence
+        fprintf(f3, "%.6lf\n", rate_confidence[i]);
+    }
+    fclose(f3);
 }
 
 double Train::calc_sum(int e1,int e2,int rel) {

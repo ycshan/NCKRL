@@ -59,9 +59,9 @@ DataModel::DataModel(Data &p_data, Parameter &p_params)
 
 void DataModel::prepare() {
     string buf;
-    ifstream ifs_en((data_set.base_dir+"entity2id.txt").c_str(),std::ios::in);
+    ifstream ifs_en((data_set.base_dir+data_set.entity2id).c_str(),std::ios::in);
     if(!ifs_en.is_open())
-        cout<<"cannot open entity2id.txt!"<<endl;
+        cout << "can't open:" << data_set.entity2id << endl;
     else {
         //build entity2ID and ID2entity map
         while(getline(ifs_en, buf)) {
@@ -76,9 +76,9 @@ void DataModel::prepare() {
     }
     ifs_en.close();
 
-    ifstream ifs_rel((data_set.base_dir+"relation2id.txt").c_str(),std::ios::in);
+    ifstream ifs_rel((data_set.base_dir+data_set.relation2id).c_str(),std::ios::in);
     if(!ifs_rel.is_open())
-        cout << "cannot open relation2id.txt!" << endl;
+        cout << "can't open:" << data_set.relation2id << endl;
     else {
         //build relation2ID and ID2relation map
         while(getline(ifs_rel, buf)) {
@@ -94,9 +94,9 @@ void DataModel::prepare() {
     ifs_rel.close();
 
     //load train
-    ifstream ifs_train((data_set.base_dir+"train.txt").c_str(),std::ios::in);
+    ifstream ifs_train((data_set.base_dir+data_set.train).c_str(),std::ios::in);
     if(!ifs_train.is_open())
-        cout << "cannot open train.txt!" << endl;
+        cout << "can't open:" << data_set.train << endl;
     else {
         while(getline(ifs_train, buf)) {
             string s1,s2,s3;
@@ -127,9 +127,9 @@ void DataModel::prepare() {
     ifs_train.close();
 
     //load noisy train
-    ifstream ifs_neg((data_set.base_dir+"neg_train_"+params.noise_rate+".txt").c_str(),std::ios::in);
+    ifstream ifs_neg((data_set.base_dir+data_set.train_neg).c_str(),std::ios::in);
     if(!ifs_neg.is_open())
-        cout << "cannot open neg_train_"+params.noise_rate+".txt!" << endl;
+        cout << "can't open:" << data_set.train_neg << endl;
     else {
         while(getline(ifs_neg, buf)) {
             string s1,s2,s3;
@@ -155,9 +155,9 @@ void DataModel::prepare() {
     ifs_neg.close();
 
     //load valid
-    ifstream ifs_valid((data_set.base_dir+"valid.txt").c_str(),std::ios::in);
+    ifstream ifs_valid((data_set.base_dir+data_set.valid).c_str(),std::ios::in);
     if(!ifs_valid.is_open())
-        cout << "cannot open valid.txt!" << endl;
+        cout << "can't open:" << data_set.valid << endl;
     else {
         while(getline(ifs_valid, buf)) {
             string s1,s2,s3;
@@ -182,9 +182,9 @@ void DataModel::prepare() {
     ifs_valid.close();
 
     //load test
-    ifstream ifs_test((data_set.base_dir+"test.txt").c_str(),std::ios::in);
+    ifstream ifs_test((data_set.base_dir+data_set.test).c_str(),std::ios::in);
     if(!ifs_test.is_open())
-        cout << "cannot open test.txt!" << endl;
+        cout << "can't open:" << data_set.test << endl;
     else {
         while(getline(ifs_test, buf)) {
             string s1,s2,s3;
@@ -229,7 +229,7 @@ void DataModel::prepare() {
     }
     //output
     ofstream of;
-    of.open((data_set.report_dir+"experiment_"+params.detail).c_str(),std::ios::app);
+    of.open((data_set.report_dir+params.detail).c_str(),std::ios::app);
     of << "relation number: " << relation_num << endl;
     of << "entity number: " << entity_num << endl;
     of.close();

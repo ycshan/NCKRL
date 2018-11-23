@@ -8,6 +8,8 @@
 #include <chrono>
 #include <iostream>
 
+using namespace std;
+
 class ProgressBar {
 private:
     unsigned ticks = 0;
@@ -16,7 +18,7 @@ private:
     const unsigned bar_width;
     const char complete_char = '=';
     const char incomplete_char = ' ';
-    const std::chrono::steady_clock::time_point start_time = std::chrono::steady_clock::now();
+    const chrono::steady_clock::time_point start_time = chrono::steady_clock::now();
 
 public:
     ProgressBar(unsigned total,unsigned width,char complete,
@@ -33,28 +35,28 @@ void ProgressBar::display() {
     float progress = (float) ticks / total_ticks;
     int pos = (int) (bar_width * progress);
 
-    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-    auto time_elapsed = std::chrono::duration_cast<std::chrono::seconds>(now-start_time).count();
+    chrono::steady_clock::time_point now = chrono::steady_clock::now();
+    auto time_elapsed = chrono::duration_cast<chrono::seconds>(now-start_time).count();
     unsigned hours = 0;
     if (time_elapsed > 3600)
         hours = (unsigned)(time_elapsed % 3600);
-    std::cout << "[";
+    cout << "[";
 
     for (int i = 0; i < bar_width; ++i) {
-        if (i < pos) std::cout << complete_char;
-        else if (i == pos) std::cout << ">";
-        else std::cout << incomplete_char;
+        if (i < pos) cout << complete_char;
+        else if (i == pos) cout << ">";
+        else cout << incomplete_char;
     }
     if (hours)
-        std::cout << "] " << int(progress * 100.0) << "% " << hours <<"h"<< time_elapsed << "s\r";
+        cout << "] " << int(progress * 100.0) << "% " << hours <<"h"<< time_elapsed << "s\r";
     else
-        std::cout << "] " << int(progress * 100.0) << "% " << time_elapsed << "s\r";
-    std::cout.flush();
+        cout << "] " << int(progress * 100.0) << "% " << time_elapsed << "s\r";
+    cout.flush();
 }
 
 void ProgressBar::done() {
     display();
-    std::cout << std::endl;
+    cout << endl;
 }
 
 #endif //NCKRL_PROGRESSBAR_H

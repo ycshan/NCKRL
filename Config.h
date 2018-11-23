@@ -72,7 +72,7 @@ public:
         this->noise_rate = p_noise_rate;
         this->ng_num = p_ng_num;
         this->l1_flag = p_l1_flag;
-        this->detail = "l"+to_string(p_l_rate)+"-r"+
+        this->detail = "report_n"+p_noise_rate+"-l"+to_string(p_l_rate)+"-r"+
                 to_string(p_margin)+"-c"+to_string(p_ng_num);
     }
 };

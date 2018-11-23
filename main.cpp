@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
     srand((unsigned) time(nullptr));
 
     //default parameters
-    unsigned epochs = 10;
+    unsigned epochs = 1000;
     unsigned dimension = 50;
     double margin = 1;
     double l_rate = 0.001;
@@ -75,16 +75,17 @@ int main(int argc, char **argv) {
     }
 
     Data data(data_set,"./data/"+data_set+"/",
-              "./results/"+data_set+"/N"+noise_rate+"/",
-              "train.txt","neg_train_"+noise_rate+".txt","valid.txt",
+              "./results/"+data_set+"/","train.txt",
+              "neg_train_"+noise_rate+".txt","valid.txt",
               "test.txt","entity2id.txt","relation2id.txt");
     Parameter params(epochs, dimension, l_rate, margin, method, noise_rate, ng_num, true);
 
 
     //output
     ofstream of;
-    of.open((data.report_dir+"/experiment_"+params.detail).c_str());
-    of << "data set:" << data_set << "\tnoise rate:" << noise_rate << "\t with pre-" << noise_rate << endl;
+    of.open((data.report_dir+params.detail).c_str());
+    of << "data set:" << data_set << endl;
+    of << "noise rate:" << noise_rate << endl;
     of << "epochs: " << epochs << endl;
     of << "dimension: " << dimension << endl;
     of << "learning rate: " << l_rate << endl;
