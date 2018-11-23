@@ -16,7 +16,7 @@
 
 using namespace std;
 
-namespace Utilities{
+namespace Utilities {
 
     inline double vec_len(vector<double> &a) {
         double res = 0;

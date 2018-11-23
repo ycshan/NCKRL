@@ -43,10 +43,9 @@ public:
     }
 };
 
-class Parameter
-{
+class Parameter {
 public:
-    int epoch;
+    unsigned epoch;
     unsigned dim;
     double l_rate;
     double margin;
@@ -57,7 +56,7 @@ public:
     string detail;
 
 public:
-    Parameter(const int& p_epoch,
+    Parameter(const unsigned& p_epoch,
               const unsigned& p_dim,
               const double& p_l_rate,
               const double& p_margin,

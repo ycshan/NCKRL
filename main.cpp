@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
     srand((unsigned) time(nullptr));
 
     //default parameters
-    int epochs = 1000;
+    unsigned epochs = 10;
     unsigned dimension = 50;
     double margin = 1;
     double l_rate = 0.001;

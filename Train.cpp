@@ -89,6 +89,8 @@ double Train::norm(vector<double> &a) {
 }
 
 void Train::sgd() {
+    ProgressBar progress_train(params.epoch,70,'#','-');
+    progress_train.display();
     val_loss = 0;
     int batch_num = 100;
     unsigned long batch_size = data_train.size()/batch_num; //batch size
@@ -183,14 +185,13 @@ void Train::sgd() {
             relation_vec = relation_tmp;
             entity_vec = entity_tmp;
         }
-        cout << "epoch:" << epoch << " \t" << val_loss << endl;
         if (epoch % 20 == 0) {
             ofstream of;
             of.open((data_set.report_dir + "experiment_"+params.detail).c_str(), std::ios::app);
             of << "epoch:" << epoch << " \t" << val_loss << endl;
             of.close();
         }
-        if (epoch % (params.epoch - 1) == 0) {
+        if ((epoch+1)%params.epoch == 0) {
             FILE *f2 = fopen((data_set.report_dir + "relation2vec_" + params.detail).c_str(), "w");
             FILE *f3 = fopen((data_set.report_dir + "entity2vec_" + params.detail).c_str(), "w");
             FILE *f4 = fopen((data_set.report_dir + "rate2conf_" + params.detail).c_str(), "w");
@@ -213,7 +214,10 @@ void Train::sgd() {
             }
             fclose(f4);
         }
+        ++progress_train;
+        progress_train.display();
     }
+    progress_train.done();
 }
 
 double Train::calc_sum(int e1,int e2,int rel) {

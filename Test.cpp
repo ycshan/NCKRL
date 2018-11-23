@@ -50,6 +50,8 @@ void Test::link_prediction() {
     unsigned hit_entity = 10;
     unsigned hit_entity_first = 1; //hit@1:no need to consider filter
     unsigned long test_total = data_test.size();
+    ProgressBar progress_test((unsigned)test_total,70,'#','-');
+    progress_test.display();
     for(unsigned test_id = 0; test_id < test_total; test_id +=1) {
         int h = data_test[test_id].first.first;
         int l = data_test[test_id].first.second;
@@ -127,8 +129,10 @@ void Test::link_prediction() {
             }
         }
         a.clear();
-        if(test_id%1000 == 0) cout<<"test id: "<<test_id<<endl;
+        ++progress_test;
+        progress_test.display();
     }
+    progress_test.done();
     //predict head
     double rleft_mean_rank = left_rank/test_total;
     double fleft_mean_rank = left_rank_filter/test_total;

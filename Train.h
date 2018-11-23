@@ -11,6 +11,7 @@
 #include <cmath>
 #include "Config.h"
 #include "Utilities.h"
+#include "ProgressBar.h"
 
 using namespace std;
 
