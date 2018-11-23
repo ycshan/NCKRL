@@ -38,8 +38,10 @@ void ProgressBar::display() {
     chrono::steady_clock::time_point now = chrono::steady_clock::now();
     auto time_elapsed = chrono::duration_cast<chrono::seconds>(now-start_time).count();
     unsigned hours = 0;
-    if (time_elapsed > 3600)
-        hours = (unsigned)(time_elapsed % 3600);
+    if (time_elapsed > 3600) {
+        hours = (unsigned)(time_elapsed / 3600);
+        time_elapsed = (time_elapsed % 3600);
+    }
     cout << "[";
 
     for (int i = 0; i < bar_width; ++i) {
@@ -48,7 +50,7 @@ void ProgressBar::display() {
         else cout << incomplete_char;
     }
     if (hours)
-        cout << "] " << int(progress * 100.0) << "% " << hours <<"h"<< time_elapsed << "s\r";
+        cout << "] " << int(progress * 100.0) << "% " << hours <<"h "<< time_elapsed << "s\r";
     else
         cout << "] " << int(progress * 100.0) << "% " << time_elapsed << "s\r";
     cout.flush();

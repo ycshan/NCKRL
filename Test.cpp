@@ -130,7 +130,8 @@ void Test::link_prediction() {
         }
         a.clear();
         ++progress_test;
-        progress_test.display();
+        if (test_id % 1000 == 0)
+            progress_test.display();
     }
     progress_test.done();
     //predict head
