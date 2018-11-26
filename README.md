@@ -2,12 +2,12 @@
 
 **NCKRL**, negative triple confidence for knowledge representation learning, is an extended model of TransE and enhanced version of CKRL. The concept of negative triple confidence can generate high quality negative triplets to some extent, which were used to support model training for detecting noises in knowledge graph, while learning robust knowledge representations simultaneously.
 
-#Data
+## Data
 
 - FB15K
 - WN18
 
-#Compile
+## Compile
 
 ```
 g++ -std=c++11 -o nckrl main.cpp Train.cpp Test.cpp
@@ -17,7 +17,7 @@ or
 
 just type make in the folder ./
 
-#Run
+## Run
 
 for training and testing just type:
 
