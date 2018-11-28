@@ -33,7 +33,7 @@ public:
 
 void ProgressBar::display() {
     float progress = (float) ticks / total_ticks;
-    int pos = (int) (bar_width * progress);
+    auto pos = (int) (bar_width * progress);
 
     chrono::steady_clock::time_point now = chrono::steady_clock::now();
     auto time_elapsed = chrono::duration_cast<chrono::seconds>(now-start_time).count();

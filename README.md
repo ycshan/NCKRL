@@ -5,7 +5,28 @@
 ## Data
 
 - FB15K
+
+  | Dataset | #rel  | #ent   | #train  | #valid | #test  |
+  | ------- | ----- | ------ | ------- | ------ | ------ |
+  | FB15K   | 1,345 | 14,951 | 483,142 | 50,000 | 59,071 |
+
+  Different ratios of negatives on FB15K.
+
+  | Dataset      | FB15K-N1 | FB15K-N2 | FB15K-N3 |
+  | ------------ | -------- | -------- | -------- |
+  | #neg triples | 46,408   | 93,782   | 187,925  |
+
 - WN18
+
+  | Dataset | #rel | #ent   | #train  | #valid | #test |
+  | ------- | ---- | ------ | ------- | ------ | ----- |
+  | WN18    | 18   | 40,943 | 141,442 | 5,000  | 5,000 |
+
+  Different ratios of negatives on WN18. Following the practice of generating noises on FB15K, we construct WN18-N1, WN18-N2 and WN18-N3.
+
+  | Dataset      | WN18-N1 | WN18-N2 | WN18-N3 |
+  | ------------ | ------- | ------- | ------- |
+  | #neg triples | 14,144  | 28,289  | 56,577  |
 
 ## Compile
 
