@@ -42,6 +42,7 @@ public:
 
 class Parameter {
 public:
+    string data_name;
     unsigned epoch;
     unsigned dim;
     double l_rate;
@@ -55,7 +56,8 @@ public:
     string report;
 
 public:
-    Parameter(const unsigned& p_epoch,
+    Parameter(const string& p_name,
+              const unsigned& p_epoch,
               const unsigned& p_dim,
               const double& p_l_rate,
               const double& p_margin,
@@ -64,6 +66,7 @@ public:
               const int& p_ng_num,
               const bool& p_l1_flag,
               const bool& p_pre_flag) {
+        this->data_name = p_name;
         this->epoch = p_epoch;
         this->dim = p_dim;
         this->l_rate = p_l_rate;
@@ -73,8 +76,8 @@ public:
         this->ng_num = p_ng_num;
         this->l1_flag = p_l1_flag;
         this->pre_flag = p_pre_flag;
-        this->detail = "n"+p_noise_rate+"-l"+to_string(p_l_rate)+"-r"+
-                to_string(p_margin)+"-c"+to_string(p_ng_num);
+        this->detail = data_name+"-n"+noise_rate+"-l"+to_string(l_rate)+"-r"+
+                to_string(margin)+"-c"+to_string(ng_num);
         this->report = "report_"+detail;
     }
 };

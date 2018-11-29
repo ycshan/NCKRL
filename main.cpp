@@ -79,7 +79,8 @@ int main(int argc, char **argv) {
               "./results/"+data_set+"/","train.txt",
               "train_n"+noise_rate+".txt","valid.txt",
               "test.txt","entity2id.txt","relation2id.txt");
-    Parameter params(epochs,dimension,l_rate,margin,method,noise_rate,ng_num,l1_flg,false);
+    Parameter params(data_set,epochs,dimension,l_rate,margin,
+            method,noise_rate,ng_num,l1_flg,false);
 
 
     //output
