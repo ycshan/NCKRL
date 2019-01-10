@@ -5,7 +5,7 @@
 #ifndef NCKRL_UTILITIES_H
 #define NCKRL_UTILITIES_H
 
-#define qNULL -999
+#define qNULL (-999)
 #define pi 3.14159265358979
 
 #include <vector>
